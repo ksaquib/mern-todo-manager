@@ -1,0 +1,172 @@
+.app_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.add {
+  height: 4.5rem;
+  width: 4.5rem;
+  border: 2px solid blue;
+  border-radius: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease-in-out;
+}
+
+.add_input {
+  height: 4.5rem;
+  width: 29rem;
+  border: 2px solid gray;
+  border-radius: 37px;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+  justify-content: space-between;
+  transition: width 0.5s ease-in-out;
+}
+
+.task_add {
+  height: 48px;
+  border: none;
+  width: 74%;
+  font-size: large;
+  background-color: ghostwhite;
+}
+
+.task_add::placeholder {
+  color: gray;
+  font-size: large;
+}
+
+.task_add:focus {
+  outline: none;
+}
+
+.done {
+  margin-right: 6px !important;
+  /* transition: width 1s ease-in-out, height 1s ease-in-out; */
+  animation: pop 0.8s ease 0s 1;
+}
+
+.todo_container {
+  margin-top: 22px;
+  width: 30% !important;
+  /* padding: 16px;
+  box-shadow: 2px 2px 4px -2px rgba(0, 0, 0, 0.5),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.5), 0px 1px 3px 0px rgba(0, 0, 255, 0.1) !important;
+  border-radius: 7px; */
+}
+
+.todo_card {
+  margin-bottom: 14px !important;
+  box-shadow: 2px 2px 4px -2px rgba(128, 128, 128, 0.5),
+    0px 1px 1px 0px rgba(128, 128, 128, 0.5),
+    0px 1px 3px 0px rgba(128, 128, 128, 0.1) !important;
+  background: linear-gradient(to right, #47c6ecb8, #ebf8ff);
+}
+
+.todo_card:hover {
+  transform: scale(1.1);
+  transition: transform 500ms ease;
+}
+
+.todo_card_content {
+  padding: 9px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task_name {
+  width: 79%;
+  overflow-x: auto;
+}
+
+.todo_edit,
+.todo_delete {
+  min-width: 40px !important;
+}
+
+/* React Transition Group */
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-leave {
+  opacity: 1;
+  /* transform: translate(0, 0, 0);
+  transform: translate3d(0, 0, 0); */
+  transform: scaleY(1);
+  transition-property: transform, opacity;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.175, 0.665, 0.32, 1), linear;
+}
+
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+  background: linear-gradient(
+    to right,
+    rgba(226, 86, 86, 0.712),
+    rgba(226, 86, 86, 0.712)
+  );
+  /* transform: translate(900px, 0);
+  transform: translate3d(900px, 0, 0); */
+  transform: scaleY(0);
+  transition: opacity 500ms ease-in, transform 500ms ease-in-out,
+    background 500ms ease;
+}
+
+.empty_todos {
+  animation: comein 1000ms ease-in;
+}
+
+/*/////////////////////////////////////////////////////////////
+!Modal Styles
+////////////////////////////////////////////////////////////*/
+
+.todo_modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo_modal_content {
+  background-color: ghostwhite;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes comein {
+  0% {
+    opacity: 0;
+  }
+
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
