@@ -28,11 +28,7 @@ class SignInComponent extends Component {
     //Attempt to login
     this.props.login({ email, password });
   };
-  componentDidMount() {
-    if (localStorage.getItem("token")) {
-      this.props.history.push("home");
-    }
-  }
+  componentDidMount() {}
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {

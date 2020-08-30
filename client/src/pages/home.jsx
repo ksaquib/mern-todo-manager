@@ -5,12 +5,13 @@ import { connect } from "react-redux";
 
 //Custom Component
 import TodoList from "../components/TodoList";
-import EmptyTodo from "../components/EmptyTodo";
+
 import EditModal from "../components/EditModal";
 import AppHeading from "../components/AppHeading";
 import TodoForm from "../components/TodoForm";
 import AppHeaderBar from "../components/AppHeaderBar";
 import AppNotification from "../components/AppNotification";
+import Button from "@material-ui/core/Button";
 import {
   logout,
   getItems,
@@ -19,12 +20,13 @@ import {
   editItem,
 } from "../redux/actions";
 import Loader from "../common/components/Loader";
+import PDFDownload from "../components/PDF/PDFDownload";
+
 class Home extends Component {
   state = {
     icon: true,
     done: false,
     text: "",
-
     modal: false,
     currentTodo: null,
     updatedTask: null,
@@ -32,6 +34,7 @@ class Home extends Component {
     deleteSnackbar: false,
     completedSnackar: false,
     priority: 4,
+    currentList: "active",
   };
   componentDidMount() {
     this.props.getItems();
@@ -47,8 +50,6 @@ class Home extends Component {
 
   //Handle deletion of each todo
   handleDelete = (id) => {
-    // const { todos } = this.props;
-    // const newTodos = todos.filter((todo) => todo._id !== id);
     this.props.deleteItem(id);
     this.setState({
       taskDeleted: true,
@@ -94,12 +95,13 @@ class Home extends Component {
       text: "",
       done: false,
       priority: 4,
+      currentList: "active",
     });
   };
 
   // Modal Update on submit button
   handleUpdate = (id) => {
-    const { todos, updatedTask, currentTodo } = this.state;
+    const { updatedTask, currentTodo } = this.state;
     console.log(updatedTask != null && updatedTask.length === 0);
     if (updatedTask != null && updatedTask.length === 0) {
       return;
@@ -157,6 +159,11 @@ class Home extends Component {
     }
     return status;
   };
+  handleActive = (value) => {
+    this.setState({
+      currentList: value,
+    });
+  };
 
   render() {
     const {
@@ -169,10 +176,11 @@ class Home extends Component {
       deleteSnackbar,
       completedSnackar,
       priority,
+      currentList,
     } = this.state;
 
-    const { logout, todos, loading, deleteStatus } = this.props;
-    console.log(deleteStatus);
+    const { logout, todos, loading } = this.props;
+
     return !loading ? (
       <div className="app_container">
         <AppHeaderBar logout={logout} />
@@ -192,19 +200,44 @@ class Home extends Component {
               styles="title_box"
               todos={todos}
               getCompletedStatus={this.getCompletedStatus}
+              currentList={currentList}
             />
 
+            <div className="completed_active_butttons">
+              <Button
+                variant="contained"
+                className={
+                  currentList === "active" ? "active_class" : "default"
+                }
+                onClick={() => this.handleActive("active")}
+              >
+                Active Tasks
+              </Button>
+              <Button
+                variant="contained"
+                className={
+                  currentList === "completed" ? "active_class" : "default"
+                }
+                onClick={() => this.handleActive("completed")}
+              >
+                Archived Tasks
+              </Button>
+              <PDFDownload todos={todos} />
+            </div>
             <TodoList
               todos={todos}
               handleEdit={this.handleEdit}
               handleDelete={this.handleDelete}
               handleSelectChange={this.handleSelectChange}
               deleted={taskDeleted}
+              currentList={currentList}
+              getCompletedStatus={this.getCompletedStatus}
+              handleClick={this.handleClick}
             />
-
+            {/* 
             {this.getCompletedStatus() || !todos.length ? (
               <EmptyTodo styles="empty_todos" handleClick={this.handleClick} />
-            ) : null}
+            ) : null} */}
           </div>
           {currentTodo && (
             <EditModal
@@ -215,15 +248,15 @@ class Home extends Component {
               handleUpdate={this.handleUpdate}
             />
           )}
-          {/* {deleteStatus && (
-            <AppNotification
-              open={deleteSnackbar}
-              handleClose={this.handleClose}
-              status="error"
-            >
-              Task deleted Successfully
-            </AppNotification>
-          )}
+
+          {/* <AppNotification
+            open={deleteSnackbar}
+            handleClose={this.handleClose}
+            status="error"
+          >
+            Task deleted Successfully
+          </AppNotification>
+
           <AppNotification
             open={completedSnackar}
             handleClose={this.handleClose}

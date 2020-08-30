@@ -23,11 +23,7 @@ class SignUpComponent extends Component {
     password: "",
     msg: null,
   };
-  componentDidMount() {
-    if (localStorage.getItem("token")) {
-      this.props.history.push("home");
-    }
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -11,6 +11,8 @@ import DoneIcon from "@material-ui/icons/Done";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { Tooltip } from "@material-ui/core";
 import { red, orange, yellow } from "@material-ui/core/colors";
+import EmptyTodo from "../components/EmptyTodo";
+import ArchiveIcon from "@material-ui/icons/Archive";
 
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
@@ -20,6 +22,9 @@ function TodoList({
   handleDelete,
   handleSelectChange,
   deleted,
+  currentList,
+  handleClick,
+  getCompletedStatus,
 }) {
   const [completed, setCompleted] = useState();
   useEffect(() => {
@@ -33,6 +38,7 @@ function TodoList({
     }
     handleSelectChange(e.target.name, e.target.checked, todo);
   };
+
   const getDeleteClasses = () => {
     if (completed) return "complete";
     if (deleted) return "fade";
@@ -67,56 +73,140 @@ function TodoList({
       </Tooltip>
     );
   };
-  return (
-    <ReactCSSTransitionGroup
-      transitionName={getDeleteClasses()}
-      transitionEnterTimeout={300}
-      transitionLeaveTimeout={500}
-    >
-      {todos.map(
-        (todo, i) =>
-          !todo.completed && (
-            // <Todo todo={todo} handleEdit={this.handleEdit} handleDelete={this.handleDelete}/>
-            <Card key={todo._id} className={"todo_card"}>
-              <CardContent className="todo_card_content">
-                {prioritySet(todo.priority)}
-                <Typography variant="body2" component="p" className="task_name">
-                  {todo.task}
-                </Typography>
-                <Tooltip title="Completed">
-                  <Checkbox
-                    checked={todo.completed}
-                    onChange={(e) => handleChange(e, todo)}
-                    name={todo._id}
-                    color="primary"
-                    icon={<DoneIcon />}
-                    checkedIcon={<DoneIcon />}
-                  />
+  const getTodos = () => {
+    return todos.map(
+      (todo, i) =>
+        !todo.completed && (
+          // <Todo todo={todo} handleEdit={this.handleEdit} handleDelete={this.handleDelete}/>
+          <Card key={todo._id} className={"todo_card"}>
+            <CardContent className="todo_card_content">
+              {prioritySet(todo.priority)}
+              <Typography variant="body2" component="p" className="task_name">
+                {todo.task}
+              </Typography>
+              <Tooltip title="Archive">
+                <Checkbox
+                  checked={todo.completed}
+                  onChange={(e) => handleChange(e, todo)}
+                  name={todo._id}
+                  color="primary"
+                  icon={<ArchiveIcon />}
+                  checkedIcon={<ArchiveIcon />}
+                />
+              </Tooltip>
+              <div className="todo_action_button">
+                <Tooltip title="Edit">
+                  <Button
+                    size="small"
+                    className="todo_edit"
+                    onClick={() => handleEdit(todo)}
+                  >
+                    <EditRoundedIcon color="primary" />
+                  </Button>
                 </Tooltip>
-                <div className="todo_action_button">
-                  <Tooltip title="Edit">
-                    <Button
-                      size="small"
-                      className="todo_edit"
-                      onClick={() => handleEdit(todo)}
-                    >
-                      <EditRoundedIcon color="primary" />
-                    </Button>
-                  </Tooltip>
-                  <Tooltip title="Delete">
-                    <Button size="small" className="todo_delete">
-                      <DeleteForeverRoundedIcon
-                        color="secondary"
-                        onClick={() => handleDelete(todo._id)}
-                      />
-                    </Button>
-                  </Tooltip>
-                </div>
-              </CardContent>
-            </Card>
-          )
+                <Tooltip title="Delete">
+                  <Button size="small" className="todo_delete">
+                    <DeleteForeverRoundedIcon
+                      color="secondary"
+                      onClick={() => handleDelete(todo._id)}
+                    />
+                  </Button>
+                </Tooltip>
+              </div>
+            </CardContent>
+          </Card>
+        )
+    );
+  };
+
+  return (
+    <div className="todo_list_container">
+      {currentList == "active" && (
+        <ReactCSSTransitionGroup
+          transitionName={getDeleteClasses()}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={500}
+        >
+          {todos.length && getTodos(todos, currentList)}
+
+          {getCompletedStatus() || !todos.length ? (
+            <EmptyTodo
+              styles="empty_todos"
+              handleClick={handleClick}
+              heading="Let's get to work"
+              type="active"
+              typeHeading="Add a task"
+            />
+          ) : null}
+        </ReactCSSTransitionGroup>
       )}
-    </ReactCSSTransitionGroup>
+      {currentList == "completed" && (
+        <ReactCSSTransitionGroup
+          transitionName={getDeleteClasses()}
+          transitionEnterTimeout={300}
+          transitionLeaveTimeout={500}
+        >
+          {todos.map(
+            (todo, i) =>
+              todo.completed && (
+                // <Todo todo={todo} handleEdit={this.handleEdit} handleDelete={this.handleDelete}/>
+                <Card key={todo._id} className={"todo_card"}>
+                  <CardContent className="todo_card_content">
+                    {prioritySet(todo.priority)}
+                    <Typography
+                      variant="body2"
+                      component="p"
+                      className="completed_task_name"
+                    >
+                      {todo.task}
+                    </Typography>
+                    {/* <Tooltip title="Completed">
+                    <Checkbox
+                      checked={todo.completed}
+                      onChange={(e) => handleChange(e, todo)}
+                      name={todo._id}
+                      color="primary"
+                      icon={<DoneIcon />}
+                      checkedIcon={<DoneIcon />}
+                      disabled
+                    />
+                  </Tooltip> */}
+                    <div className="todo_action_button">
+                      {/* <Tooltip title="Edit">
+                      <Button
+                        size="small"
+                        className="todo_edit"
+                        onClick={() => handleEdit(todo)}
+                        disabled
+                      >
+                        <EditRoundedIcon color="primary" />
+                      </Button>
+                    </Tooltip> */}
+                      <Tooltip title="Delete">
+                        <Button size="small" className="todo_delete">
+                          <DeleteForeverRoundedIcon
+                            color="secondary"
+                            onClick={() => handleDelete(todo._id)}
+                          />
+                        </Button>
+                      </Tooltip>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+          )}
+          {!getCompletedStatus() ? (
+            <EmptyTodo
+              styles="empty_todos"
+              handleClick={handleClick}
+              heading="No Archive Found!"
+              type="completed"
+              typeHeading="Archive a task"
+            />
+          ) : null}
+        </ReactCSSTransitionGroup>
+      )}
+    </div>
   );
 }
 

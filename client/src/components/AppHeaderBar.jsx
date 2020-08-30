@@ -18,6 +18,7 @@ export class AppHeaderBar extends Component {
           <Typography variant="h6" className="header_title">
             TODO
           </Typography>
+
           <Button
             color="inherit"
             className="app_logout_button"

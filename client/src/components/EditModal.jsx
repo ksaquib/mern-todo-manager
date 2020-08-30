@@ -60,6 +60,7 @@ function EditModal({
           >
             <Cancel />
           </Fab>
+
           <Fab
             style={{ backgroundColor: green[500], color: "white" }}
             aria-label="add"

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   todo_list: {
     borderColor: "white",
     color: "white",
-    fontSize: 40,
+    fontSize: 30,
     borderWidth: 5,
     paddingTop: 10,
     paddingLeft: 10,
@@ -55,7 +55,7 @@ const PDFComponent = ({ todos }) => (
         )}
       </View>
       <View style={styles.section}>
-        <Text style={styles.todo_list}>COMPLETED</Text>
+        <Text style={styles.todo_list}>ARCHIVED</Text>
         {todos.map(
           (todo) =>
             todo.completed && (
