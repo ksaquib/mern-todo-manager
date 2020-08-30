@@ -14,7 +14,7 @@ export const todoFetchFail = (error) => {
   };
 };
 export function todo() {
-  const options = {};
+  //const options = {};
   return (dispatch) => {
     console.log(data);
     axios

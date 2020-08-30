@@ -1,3 +1,8 @@
+body {
+    margin: 0 !important;
+    background-color: ghostwhite !important;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
@@ -17,8 +22,4 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
-}
-
-body {
-    background-color: ghostwhite;
 }

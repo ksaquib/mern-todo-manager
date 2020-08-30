@@ -1,6 +1,48 @@
-.app_container {
+.app_header {
+  background-color: ghostwhite !important;
+  height: 80px !important;
+}
+
+.app_toolbar {}
+
+.app_logout_button {
+  background-color: #3f51b5 !important;
+  border-radius: 40px !important;
+  width: 11%;
+  margin-top: 3% !important;
+  margin-right: 3% !important;
+  height: 60% !important;
+}
+
+.app_logout_button:hover {
+
+  box-shadow: -5px 2px 4px -2px rgba(128, 128, 128, 0.5),
+    0px 1px 1px 0px rgba(128, 128, 128, 0.5),
+    0px 1px 3px 0px rgba(128, 128, 128, 0.1) !important;
+
+  cursor: pointer;
+  transform: scale(1.1);
+  transition: transform 500ms ease;
+}
+
+.header_title {
+  flex-grow: 1;
+}
+
+.app_body {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4%;
+}
+
+/**----------------------------------------------------*/
+/*-------------------Todo Form (START)--------------- */
+/**----------------------------------------------------*/
+
+.add_task_form {
+  display: flex;
   align-items: center;
   justify-content: center;
 }
@@ -8,7 +50,7 @@
 .add {
   height: 4.5rem;
   width: 4.5rem;
-  border: 2px solid blue;
+  border: 2px solid #6ea0ef;
   border-radius: 37px;
   display: flex;
   align-items: center;
@@ -18,8 +60,8 @@
 
 .add_input {
   height: 4.5rem;
-  width: 29rem;
-  border: 2px solid gray;
+  width: 38rem;
+  border: 2px solid #6ea0ef;
   border-radius: 37px;
   display: flex;
   align-items: center;
@@ -32,7 +74,7 @@
 .task_add {
   height: 48px;
   border: none;
-  width: 74%;
+  width: 67%;
   font-size: large;
   background-color: ghostwhite;
 }
@@ -47,14 +89,55 @@
 }
 
 .done {
-  margin-right: 6px !important;
-  /* transition: width 1s ease-in-out, height 1s ease-in-out; */
+
   animation: pop 0.8s ease 0s 1;
+}
+
+
+
+
+/*-------------------Todo Form (END)--------------- */
+
+/**----------------------------------------------------*/
+/* Todo List Container (START) */
+/**----------------------------------------------------*/
+.title_box {
+  display: flex;
+  height: 50px;
+  background: linear-gradient(to right, #bef9ee, #dedef7);
+  margin-bottom: 13px;
+  border-radius: 7px;
+  align-items: center;
+  justify-content: center;
+  font-family: Montserrat;
+  color: #4c70b1;
+}
+
+.banner_heading {
+  margin-right: auto;
+  padding-left: 34%;
+}
+
+.export_pdf {
+  margin-right: 4%;
+  color: #237519 !important;
+  padding: 5px;
+}
+
+.export_pdf:hover {
+  padding: 5px;
+  border-radius: 7%;
+  box-shadow: -5px 2px 4px -2px rgba(128, 128, 128, 0.5),
+    0px 1px 1px 0px rgba(128, 128, 128, 0.5),
+    0px 1px 3px 0px rgba(128, 128, 128, 0.1) !important;
+  background: linear-gradient(to right, #d2e8efb8, #ebf8ff);
+  cursor: pointer;
+  animation: download 1s ease-in-out 0s 1;
 }
 
 .todo_container {
   margin-top: 22px;
-  width: 30% !important;
+  width: 32% !important;
   /* padding: 16px;
   box-shadow: 2px 2px 4px -2px rgba(0, 0, 0, 0.5),
     0px 1px 1px 0px rgba(0, 0, 0, 0.5), 0px 1px 3px 0px rgba(0, 0, 255, 0.1) !important;
@@ -82,8 +165,11 @@
 }
 
 .task_name {
-  width: 79%;
+  width: 65%;
   overflow-x: auto;
+  font-size: 1em !important;
+  font-family: Montserrat !important;
+  color: #251e1ee6;
 }
 
 .todo_edit,
@@ -111,13 +197,29 @@
   transition-timing-function: cubic-bezier(0.175, 0.665, 0.32, 1), linear;
 }
 
-.fade-leave.fade-leave-active {
+/* React Transition Group */
+.complete-enter {
   opacity: 0.01;
-  background: linear-gradient(
-    to right,
-    rgba(226, 86, 86, 0.712),
-    rgba(226, 86, 86, 0.712)
-  );
+}
+
+.complete-enter.complete-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in;
+}
+
+.complete-leave {
+  opacity: 1;
+  transform: scaleY(1);
+  transition-property: transform, opacity;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.175, 0.665, 0.32, 1), linear;
+}
+
+.complete-leave.complete-leave-active {
+  opacity: 0.01;
+  background: linear-gradient(to right,
+      rgba(119, 241, 156, 0.712),
+      rgba(100, 236, 95, 0.712));
   /* transform: translate(900px, 0);
   transform: translate3d(900px, 0, 0); */
   transform: scaleY(0);
@@ -125,13 +227,63 @@
     background 500ms ease;
 }
 
-.empty_todos {
-  animation: comein 1000ms ease-in;
+.fade-leave.fade-leave-active {
+  opacity: 0.01;
+  background: linear-gradient(to right,
+      rgba(226, 86, 86, 0.712),
+      rgba(226, 86, 86, 0.712));
+  /* transform: translate(900px, 0);
+  transform: translate3d(900px, 0, 0); */
+  transform: scaleY(0);
+  transition: opacity 500ms ease-in, transform 500ms ease-in-out,
+    background 500ms ease;
 }
 
-/*/////////////////////////////////////////////////////////////
-!Modal Styles
-////////////////////////////////////////////////////////////*/
+/* Todo List Container (END) */
+
+/* Empty Todos */
+.empty_todos {
+  animation: comein 1000ms ease-in;
+  background: linear-gradient(to bottom right, #a2eaffb8, #e9f7ea);
+  border-radius: 7px;
+  height: 297px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 26px;
+  font-family: Montserrat;
+  color: #256161;
+  box-shadow: 2px 2px 4px -2px rgba(128, 128, 128, 0.5),
+    0px 1px 1px 0px rgba(128, 128, 128, 0.5),
+    0px 1px 3px 0px rgba(128, 128, 128, 0.1) !important;
+}
+
+.empty_todo_icon {
+  font-size: 94px !important;
+}
+
+.empty_todo_add {
+  font-size: 40px !important;
+  animation: pulse 0.8s ease-in-out 0s infinite;
+  cursor: pointer;
+  color: #22671a !important;
+  border-radius: 18px !important;
+}
+
+.empty_todo_text {
+  margin-top: 4px !important;
+}
+
+.empty_todo_heading {
+  margin-top: 4px !important;
+  font-size: 29px !important;
+  margin-bottom: 34px;
+}
+
+/*-----------------------------------------------------------*/
+/* Update Modal Styles */
+/*-----------------------------------------------------------*/
 
 .todo_modal {
   display: flex;
@@ -141,7 +293,105 @@
 
 .todo_modal_content {
   background-color: ghostwhite;
+  padding: 2%;
+  border-radius: 60px;
+  width: 40%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 }
+
+.todo_modal_content:focus {
+  outline: none !important;
+}
+
+/* Task update input styles */
+.task_update {
+  flex-basis: 500px;
+  border: none;
+  font-size: 2em;
+  background-color: ghostwhite;
+  padding-right: 12px;
+}
+
+.task_update::placeholder {
+  color: gray;
+  font-size: 1em;
+}
+
+.task_update:focus {
+  outline: none;
+}
+
+.update_btn {
+  margin-left: 17px !important;
+}
+
+/*-----------------------------------------------------------*/
+/* Update Priority Modal Styles */
+/*-----------------------------------------------------------*/
+
+.priority_modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.priority_box {
+  width: 13%;
+  background-color: ghostwhite;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 7px;
+}
+
+.priority_box:focus {
+  outline: none;
+}
+
+.priority_actions {
+  margin-top: 6%;
+  margin-bottom: 5%;
+}
+
+/*-----------------------------------------------------------*/
+/* SIGN IN STYLES */
+/*-----------------------------------------------------------*/
+.sign_in_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 44%;
+  flex-direction: column;
+}
+
+.sign_in_icon {
+  margin: 1% !important;
+}
+
+.sign_in_form {
+  margin-top: 1% !important;
+}
+
+.sign_in_submit {
+  margin-top: 2% !important;
+  margin-bottom: 2% !important;
+}
+
+.sign_in_register {
+  justify-content: center;
+}
+
+.sign_up_login {
+  justify-content: center;
+}
+
+
+/** All the keyframes*/
 
 @keyframes pop {
   0% {
@@ -157,16 +407,56 @@
   }
 }
 
+/* For Download as PDF */
+@keyframes download {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* For empty Todo */
+
 @keyframes comein {
   0% {
     opacity: 0;
   }
 
-  80% {
+  70% {
     opacity: 0;
   }
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  50% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.09);
+    -webkit-box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.25);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-box-shadow: none;
+    box-shadow: none;
   }
 }
