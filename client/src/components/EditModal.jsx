@@ -65,7 +65,7 @@ function EditModal({
             aria-label="add"
             component="button"
             className="update_btn"
-            onClick={() => handleUpdate(currentTodo.id)}
+            onClick={() => handleUpdate(currentTodo._id)}
           >
             <Check />
           </Fab>

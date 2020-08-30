@@ -9,13 +9,53 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import Container from "@material-ui/core/Container";
 import "../App.css";
 import { green } from "@material-ui/core/colors";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import Alert from "@material-ui/lab/Alert";
+import { login } from "../redux/actions";
+import { clearErrors } from "../redux/actions/errorActions";
 
-export class SignInComponent extends Component {
+class SignInComponent extends Component {
+  state = {
+    email: "",
+    password: "",
+    msg: null,
+  };
   handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password } = this.state;
+
+    //Attempt to login
+    this.props.login({ email, password });
+  };
+  componentDidMount() {
+    if (localStorage.getItem("token")) {
+      this.props.history.push("home");
+    }
+  }
+  componentDidUpdate(prevProps) {
+    const { error, isAuthenticated } = this.props;
+    if (error !== prevProps.error) {
+      //Check for register error
+      if (error.id === "LOGIN_FAIL") {
+        this.setState({ msg: error.msg.msg });
+      } else {
+        this.setState({ msg: null });
+      }
+    }
+
+    if (isAuthenticated) {
+      //Clear Errors
+      this.props.clearErrors();
+      this.props.history.push("/home");
+    }
+  }
+  onChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
   };
   render() {
+    const { msg: error } = this.state;
+
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -30,6 +70,7 @@ export class SignInComponent extends Component {
             Sign in
           </Typography>
           <form className="sign_in_form" onSubmit={this.handleSubmit}>
+            {error && <Alert severity="error">{error}</Alert>}
             <TextField
               variant="outlined"
               margin="normal"
@@ -40,6 +81,7 @@ export class SignInComponent extends Component {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={this.onChange}
             />
             <TextField
               variant="outlined"
@@ -51,6 +93,7 @@ export class SignInComponent extends Component {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={this.onChange}
             />
 
             <Button
@@ -75,5 +118,11 @@ export class SignInComponent extends Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error,
+});
 
-export default SignInComponent;
+export default connect(mapStateToProps, { login, clearErrors })(
+  withRouter(SignInComponent)
+);

@@ -8,14 +8,65 @@ import Typography from "@material-ui/core/Typography";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import Container from "@material-ui/core/Container";
 import "../App.css";
-import { orange } from "@material-ui/core/colors";
-import { Link } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert";
 
-export class SignUpComponent extends Component {
+import { orange } from "@material-ui/core/colors";
+import { Link, withRouter } from "react-router-dom";
+import { register } from "../redux/actions";
+import { clearErrors } from "../redux/actions/errorActions";
+import { connect } from "react-redux";
+
+class SignUpComponent extends Component {
+  state = {
+    name: "",
+    email: "",
+    password: "",
+    msg: null,
+  };
+  componentDidMount() {
+    if (localStorage.getItem("token")) {
+      this.props.history.push("home");
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { error, isAuthenticated } = this.props;
+    if (error !== prevProps.error) {
+      //Check for register error
+      if (error.id === "REGISTER_FAIL") {
+        this.setState({ msg: error.msg.msg });
+      } else {
+        this.setState({ msg: null });
+      }
+    }
+
+    //IF authenticated
+    if (isAuthenticated) {
+      //Clear Errors
+      console.log(this.props);
+      this.props.clearErrors();
+      this.props.history.push("/home");
+    }
+  }
   handleSubmit = (e) => {
     e.preventDefault();
+    const { name, email, password } = this.state;
+
+    //Create new user
+    const newUser = {
+      name,
+      email,
+      password,
+    };
+    console.log(newUser);
+    //Attempt to register
+    this.props.register(newUser);
+  };
+  onChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
   };
   render() {
+    const { msg: error } = this.state;
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -30,16 +81,18 @@ export class SignUpComponent extends Component {
             Sign up
           </Typography>
           <form className="sign_in_form" onSubmit={this.handleSubmit}>
+            {error && <Alert severity="error">{error}</Alert>}
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="username"
+              id="name"
               label="Username"
-              name="username"
-              autoComplete="username"
+              name="name"
+              autoComplete="name"
               autoFocus
+              onChange={this.onChange}
             />
             <TextField
               variant="outlined"
@@ -50,6 +103,7 @@ export class SignUpComponent extends Component {
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={this.onChange}
             />
             <TextField
               variant="outlined"
@@ -61,6 +115,7 @@ export class SignUpComponent extends Component {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={this.onChange}
             />
 
             <Button
@@ -86,4 +141,11 @@ export class SignUpComponent extends Component {
   }
 }
 
-export default SignUpComponent;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  error: state.error,
+});
+
+export default connect(mapStateToProps, { register, clearErrors })(
+  withRouter(SignUpComponent)
+);

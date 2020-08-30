@@ -25,13 +25,13 @@ function TodoList({
   useEffect(() => {
     setCompleted(false);
   }, [todos]);
-  const handleChange = (e) => {
+  const handleChange = (e, todo) => {
     if (e.target.checked) {
       setCompleted(true);
     } else {
       setCompleted(false);
     }
-    handleSelectChange(e.target.name, e.target.checked);
+    handleSelectChange(e.target.name, e.target.checked, todo);
   };
   const getDeleteClasses = () => {
     if (completed) return "complete";
@@ -77,7 +77,7 @@ function TodoList({
         (todo, i) =>
           !todo.completed && (
             // <Todo todo={todo} handleEdit={this.handleEdit} handleDelete={this.handleDelete}/>
-            <Card key={todo.id} className={"todo_card"}>
+            <Card key={todo._id} className={"todo_card"}>
               <CardContent className="todo_card_content">
                 {prioritySet(todo.priority)}
                 <Typography variant="body2" component="p" className="task_name">
@@ -86,8 +86,8 @@ function TodoList({
                 <Tooltip title="Completed">
                   <Checkbox
                     checked={todo.completed}
-                    onChange={handleChange}
-                    name={todo.id}
+                    onChange={(e) => handleChange(e, todo)}
+                    name={todo._id}
                     color="primary"
                     icon={<DoneIcon />}
                     checkedIcon={<DoneIcon />}
@@ -107,7 +107,7 @@ function TodoList({
                     <Button size="small" className="todo_delete">
                       <DeleteForeverRoundedIcon
                         color="secondary"
-                        onClick={() => handleDelete(todo.id)}
+                        onClick={() => handleDelete(todo._id)}
                       />
                     </Button>
                   </Tooltip>

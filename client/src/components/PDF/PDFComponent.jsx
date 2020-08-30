@@ -45,11 +45,25 @@ const PDFComponent = ({ todos }) => (
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
         <Text style={styles.todo_list}>TODO LIST</Text>
-        {todos.map((todo) => (
-          <Text key={todo.id} style={styles.todo}>
-            {todo.task}
-          </Text>
-        ))}
+        {todos.map(
+          (todo) =>
+            !todo.completed && (
+              <Text key={todo._id} style={styles.todo}>
+                {todo.task}
+              </Text>
+            )
+        )}
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.todo_list}>COMPLETED</Text>
+        {todos.map(
+          (todo) =>
+            todo.completed && (
+              <Text key={todo._id} style={styles.todo}>
+                {todo.task}
+              </Text>
+            )
+        )}
       </View>
     </Page>
   </Document>

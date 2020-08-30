@@ -11,7 +11,7 @@ function AppNotification({ open, handleClose, children, status }) {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={1000}
+      autoHideDuration={500}
       onClose={handleClose}
       //   anchorOrigin={{ vertical, horizontal }}
       //   key={vertical + horizontal}

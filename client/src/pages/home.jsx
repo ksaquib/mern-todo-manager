@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import "../App.css";
 
 import { connect } from "react-redux";
-import * as actions from "../redux/actions/index";
-import shortid from "shortid";
 
 //Custom Component
 import TodoList from "../components/TodoList";
@@ -13,26 +11,20 @@ import AppHeading from "../components/AppHeading";
 import TodoForm from "../components/TodoForm";
 import AppHeaderBar from "../components/AppHeaderBar";
 import AppNotification from "../components/AppNotification";
+import {
+  logout,
+  getItems,
+  addItem,
+  deleteItem,
+  editItem,
+} from "../redux/actions";
+import Loader from "../common/components/Loader";
 class Home extends Component {
   state = {
     icon: true,
     done: false,
     text: "",
-    todos: [
-      {
-        id: "fdsak_1",
-        task: "Complete the Redux Project.",
-        completed: false,
-        priority: 1,
-      },
-      { id: "eiurwe_2", task: "Go for a Walk", completed: false, priority: 2 },
-      {
-        id: "dskjfk_3",
-        task: "Call Mom and Dad",
-        completed: false,
-        priority: 3,
-      },
-    ],
+
     modal: false,
     currentTodo: null,
     updatedTask: null,
@@ -42,7 +34,7 @@ class Home extends Component {
     priority: 4,
   };
   componentDidMount() {
-    this.props.todo();
+    this.props.getItems();
   }
 
   //To toggle the add todo input
@@ -53,64 +45,21 @@ class Home extends Component {
     });
   };
 
-  //Handle edit of each todo
-  handleEdit = (todo) => {
-    this.setState({ currentTodo: todo });
-    this.setState({ modal: true });
-  };
-
   //Handle deletion of each todo
   handleDelete = (id) => {
-    const { todos } = this.state;
-    const newTodos = todos.filter((todo) => todo.id !== id);
+    // const { todos } = this.props;
+    // const newTodos = todos.filter((todo) => todo._id !== id);
+    this.props.deleteItem(id);
     this.setState({
-      todos: newTodos,
       taskDeleted: true,
       deleteSnackbar: true,
     });
   };
 
-  handleSelectChange = (name, checked) => {
-    const { todos } = this.state;
-
-    this.setState({
-      todos: todos.map((todo) => {
-        if (todo.id === name) {
-          return {
-            ...todo,
-            completed: checked,
-          };
-        } else {
-          return todo;
-        }
-      }),
-      completedSnackar: true,
-    });
-  };
-
-  //Handle submit of add Task
-  submitHandler = (event) => {
-    event.preventDefault();
-
-    let { text, todos, priority } = this.state;
-    if (text === "") return;
-    const todoObj = {
-      id: shortid.generate(),
-      task: text,
-      complete: false,
-      priority: parseInt(priority),
-    };
-    const newTodos = [todoObj, ...todos];
-
-    this.setState({
-      todos: newTodos,
-    });
-
-    this.setState({
-      text: "",
-      done: false,
-      priority: 4,
-    });
+  //Handle edit of each todo
+  handleEdit = (todo) => {
+    this.setState({ currentTodo: todo });
+    this.setState({ modal: true });
   };
 
   //Handle change of add task input
@@ -129,6 +78,63 @@ class Home extends Component {
       });
     }
   };
+  //Handle submit of add Task
+  submitHandler = (event) => {
+    event.preventDefault();
+
+    let { text, priority } = this.state;
+    if (text === "") return;
+    const todoObj = {
+      task: text,
+      complete: false,
+      priority: parseInt(priority),
+    };
+    this.props.addItem(todoObj);
+    this.setState({
+      text: "",
+      done: false,
+      priority: 4,
+    });
+  };
+
+  // Modal Update on submit button
+  handleUpdate = (id) => {
+    const { todos, updatedTask, currentTodo } = this.state;
+    console.log(updatedTask != null && updatedTask.length === 0);
+    if (updatedTask != null && updatedTask.length === 0) {
+      return;
+    }
+    if (updatedTask === null) {
+      this.handleClose();
+    } else {
+      const todoObj = {
+        ...currentTodo,
+        task: updatedTask,
+      };
+      console.log(todoObj);
+      this.props.editItem(id, todoObj);
+    }
+    this.handleClose();
+  };
+
+  // Assign a text input value to updatedTask from Modal
+  handleChangeUpdate = (value) => {
+    this.setState({ updatedTask: value });
+  };
+
+  //Archive complete Change
+  handleSelectChange = (name, checked, todo) => {
+    const todoObj = {
+      ...todo,
+      completed: checked,
+    };
+    this.props.editItem(name, todoObj);
+
+    this.setState({
+      completedSnackar: true,
+    });
+  };
+
   //Modal Toggle and Snackbar Title
   handleClose = () => {
     this.setState({
@@ -137,46 +143,18 @@ class Home extends Component {
       deleteSnackbar: false,
     });
   };
-  // Modal Update on submit button
-  handleUpdate = (id) => {
-    const { todos, updatedTask } = this.state;
-    console.log(updatedTask != null && updatedTask.length === 0);
-    if (updatedTask != null && updatedTask.length === 0) {
-      return;
-    }
-    if (updatedTask === null) {
-      this.handleClose();
-    } else {
-      this.setState({
-        todos: todos.map((todo) => {
-          if (todo.id === id) {
-            return {
-              ...todo,
-              task: updatedTask,
-            };
-          } else {
-            return todo;
-          }
-        }),
-      });
-    }
-
-    this.handleClose();
-  };
-  // Assign a text input value to updatedTask from Modal
-  handleChangeUpdate = (value) => {
-    this.setState({ updatedTask: value });
-  };
 
   // Handle Priority change
   handlePriorityChange = (event) => {
-    console.log("here");
     this.setState({ priority: event.target.value });
   };
 
   getCompletedStatus = () => {
-    const { todos } = this.state;
-    let status = todos.every((todo) => todo.completed);
+    const { todos } = this.props;
+    let status;
+    if (todos.length) {
+      status = todos.every((todo) => todo.completed);
+    }
     return status;
   };
 
@@ -184,7 +162,6 @@ class Home extends Component {
     const {
       icon,
       done,
-      todos,
       text,
       modal,
       currentTodo,
@@ -193,11 +170,12 @@ class Home extends Component {
       completedSnackar,
       priority,
     } = this.state;
-    console.log(todos);
-    console.log(priority);
-    return (
+
+    const { logout, todos, loading, deleteStatus } = this.props;
+    console.log(deleteStatus);
+    return !loading ? (
       <div className="app_container">
-        <AppHeaderBar />
+        <AppHeaderBar logout={logout} />
         <div className="app_body">
           <TodoForm
             icon={icon}
@@ -237,34 +215,40 @@ class Home extends Component {
               handleUpdate={this.handleUpdate}
             />
           )}
-          <AppNotification
-            open={deleteSnackbar}
-            handleClose={this.handleClose}
-            status="error"
-          >
-            Task deleted Successfully
-          </AppNotification>
+          {/* {deleteStatus && (
+            <AppNotification
+              open={deleteSnackbar}
+              handleClose={this.handleClose}
+              status="error"
+            >
+              Task deleted Successfully
+            </AppNotification>
+          )}
           <AppNotification
             open={completedSnackar}
             handleClose={this.handleClose}
             status="success"
           >
             Task added to completed
-          </AppNotification>
+          </AppNotification> */}
         </div>
       </div>
+    ) : (
+      <Loader />
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  todoData: state.todo.data,
+  todos: state.todos.task_items,
+  loading: state.todos.loading,
+  deleteStatus: state.todos.deleteStatus,
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    todo: () => dispatch(actions.todo()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, {
+  logout,
+  getItems,
+  addItem,
+  deleteItem,
+  editItem,
+})(Home);
