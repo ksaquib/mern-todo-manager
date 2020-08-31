@@ -13,6 +13,7 @@ import { Tooltip } from "@material-ui/core";
 import { red, orange, yellow } from "@material-ui/core/colors";
 import EmptyTodo from "../components/EmptyTodo";
 import ArchiveIcon from "@material-ui/icons/Archive";
+import UnarchiveIcon from "@material-ui/icons/Unarchive";
 
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
@@ -194,16 +195,16 @@ function TodoList({
                     />
                   </Tooltip> */}
                     <div className="todo_action_button">
-                      {/* <Tooltip title="Edit">
-                      <Button
-                        size="small"
-                        className="todo_edit"
-                        onClick={() => handleEdit(todo)}
-                        disabled
-                      >
-                        <EditRoundedIcon color="primary" />
-                      </Button>
-                    </Tooltip> */}
+                      <Tooltip title="Unarchive">
+                        <Checkbox
+                          checked={todo.completed}
+                          onChange={(e) => handleChange(e, todo)}
+                          name={todo._id}
+                          color="primary"
+                          icon={<UnarchiveIcon />}
+                          checkedIcon={<UnarchiveIcon />}
+                        />
+                      </Tooltip>
                       <Tooltip title="Delete">
                         <Button size="small" className="todo_delete">
                           <DeleteForeverRoundedIcon

@@ -7,7 +7,7 @@ import PDFComponent from "./PDFComponent";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 function PDFDownload({ todos }) {
-  return (
+  return todos.length ? (
     <PDFDownloadLink
       document={<PDFComponent todos={todos} />}
       fileName="todos.pdf"
@@ -23,7 +23,7 @@ function PDFDownload({ todos }) {
         )
       }
     </PDFDownloadLink>
-  );
+  ) : null;
 }
 
 export default PDFDownload;

@@ -175,7 +175,7 @@
 }
 
 .completed_task_name {
-  width: 82%;
+  width: 75%;
   overflow-x: auto;
   font-size: 1em !important;
   font-family: Montserrat !important;
