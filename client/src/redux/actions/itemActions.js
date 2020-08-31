@@ -16,8 +16,6 @@ export const getItems = () => (dispatch, getState) => {
   axios
     .get(apiRoutes.ITEM, tokenConfig(getState))
     .then((res) => {
-      console.log("get");
-      console.log(res);
       dispatch({
         type: GET_ITEMS,
         payload: res.data,
@@ -32,8 +30,6 @@ export const addItem = (item) => (dispatch, getState) => {
   axios
     .post(apiRoutes.ITEM, item, tokenConfig(getState))
     .then((res) => {
-      console.log("add");
-      console.log(res.data);
       dispatch({
         type: ADD_ITEM,
         payload: res.data,

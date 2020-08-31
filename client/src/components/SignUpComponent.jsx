@@ -39,7 +39,6 @@ class SignUpComponent extends Component {
     //IF authenticated
     if (isAuthenticated) {
       //Clear Errors
-      console.log(this.props);
       this.props.clearErrors();
       this.props.history.push("/home");
     }
@@ -54,7 +53,6 @@ class SignUpComponent extends Component {
       email,
       password,
     };
-    console.log(newUser);
     //Attempt to register
     this.props.register(newUser);
   };

@@ -27,9 +27,11 @@ function TodoList({
   getCompletedStatus,
 }) {
   const [completed, setCompleted] = useState();
+
   useEffect(() => {
     setCompleted(false);
   }, [todos]);
+
   const handleChange = (e, todo) => {
     if (e.target.checked) {
       setCompleted(true);
@@ -49,30 +51,40 @@ function TodoList({
     if (priority === 1) {
       return (
         <Tooltip title={`Priority ${priority}`}>
-          <FiberManualRecordIcon style={{ color: red[500] }} />
+          <FiberManualRecordIcon
+            className="priority_color_icon"
+            style={{ color: red[500] }}
+          />
         </Tooltip>
       );
     }
     if (priority === 2) {
       return (
         <Tooltip title={`Priority ${priority}`}>
-          <FiberManualRecordIcon style={{ color: orange[500] }} />
+          <FiberManualRecordIcon
+            className="priority_color_icon"
+            style={{ color: orange[500] }}
+          />
         </Tooltip>
       );
     }
     if (priority === 3) {
       return (
         <Tooltip title={`Priority ${priority}`}>
-          <FiberManualRecordIcon style={{ color: yellow[500] }} />
+          <FiberManualRecordIcon
+            className="priority_color_icon"
+            style={{ color: yellow[500] }}
+          />
         </Tooltip>
       );
     }
     return (
       <Tooltip title={`Priority ${priority}`}>
-        <FiberManualRecordIcon />
+        <FiberManualRecordIcon className="priority_color_icon" />
       </Tooltip>
     );
   };
+
   const getTodos = () => {
     return todos.map(
       (todo, i) =>
@@ -92,6 +104,7 @@ function TodoList({
                   color="primary"
                   icon={<ArchiveIcon />}
                   checkedIcon={<ArchiveIcon />}
+                  className="archive_icon"
                 />
               </Tooltip>
               <div className="todo_action_button">
@@ -118,7 +131,16 @@ function TodoList({
         )
     );
   };
-
+  const getInCompleteStatus = (todos) => {
+    let status;
+    if (!todos.length) {
+      status = true;
+    }
+    if (todos.length) {
+      status = todos.every((todo) => !todo.completed);
+    }
+    return status;
+  };
   return (
     <div className="todo_list_container">
       {currentList == "active" && (
@@ -195,7 +217,7 @@ function TodoList({
                 </Card>
               )
           )}
-          {!getCompletedStatus() ? (
+          {getInCompleteStatus(todos) ? (
             <EmptyTodo
               styles="empty_todos"
               handleClick={handleClick}

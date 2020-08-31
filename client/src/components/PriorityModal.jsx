@@ -103,7 +103,7 @@ export default function PriorityModal({
               style={{ backgroundColor: green[500], color: "white" }}
               aria-label="add"
               component="button"
-              className="update_btn"
+              className="priority_update_btn"
               onClick={handleClose}
             >
               <Check />

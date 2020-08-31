@@ -21,6 +21,8 @@ import {
 } from "../redux/actions";
 import Loader from "../common/components/Loader";
 import PDFDownload from "../components/PDF/PDFDownload";
+import jwt from "jsonwebtoken";
+import { withRouter } from "react-router-dom";
 
 class Home extends Component {
   state = {
@@ -37,6 +39,15 @@ class Home extends Component {
     currentList: "active",
   };
   componentDidMount() {
+    var isExpired = false;
+    const token = localStorage.getItem("token");
+    var decodedToken = jwt.decode(token, { complete: true });
+    var dateNow = new Date();
+    var exp = new Date(decodedToken.payload.exp * 1000);
+    if (exp.getTime() < dateNow.getTime()) isExpired = true;
+    if (isExpired) {
+      this.props.history.push("signin");
+    }
     this.props.getItems();
   }
 
@@ -102,7 +113,6 @@ class Home extends Component {
   // Modal Update on submit button
   handleUpdate = (id) => {
     const { updatedTask, currentTodo } = this.state;
-    console.log(updatedTask != null && updatedTask.length === 0);
     if (updatedTask != null && updatedTask.length === 0) {
       return;
     }
@@ -113,7 +123,6 @@ class Home extends Component {
         ...currentTodo,
         task: updatedTask,
       };
-      console.log(todoObj);
       this.props.editItem(id, todoObj);
     }
     this.handleClose();
@@ -159,6 +168,7 @@ class Home extends Component {
     }
     return status;
   };
+
   handleActive = (value) => {
     this.setState({
       currentList: value,
@@ -211,7 +221,7 @@ class Home extends Component {
                 }
                 onClick={() => this.handleActive("active")}
               >
-                Active Tasks
+                <span className="action_title">Active Tasks</span>
               </Button>
               <Button
                 variant="contained"
@@ -220,7 +230,7 @@ class Home extends Component {
                 }
                 onClick={() => this.handleActive("completed")}
               >
-                Archived Tasks
+                <span className="action_title">Archived Tasks</span>
               </Button>
               <PDFDownload todos={todos} />
             </div>
@@ -284,4 +294,4 @@ export default connect(mapStateToProps, {
   addItem,
   deleteItem,
   editItem,
-})(Home);
+})(withRouter(Home));

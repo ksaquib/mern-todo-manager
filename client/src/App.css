@@ -44,6 +44,7 @@
   transition: width 0.5s ease-in-out;
 }
 
+
 .task_add {
   height: 48px;
   border: none;
@@ -62,7 +63,6 @@
 }
 
 .done {
-
   animation: pop 0.8s ease 0s 1;
 }
 
@@ -369,6 +369,10 @@
   margin-bottom: 5%;
 }
 
+.priority_update_btn {
+  margin-left: 17px !important;
+}
+
 /*-----------------------------------------------------------*/
 /* SIGN IN STYLES */
 /*-----------------------------------------------------------*/
@@ -590,5 +594,141 @@
     transform: scale(1);
     -webkit-box-shadow: none;
     box-shadow: none;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+
+  /*-------------------Todo Form (START)--------------- */
+
+  .app_body {
+    margin-top: 6%;
+  }
+
+  .add {
+    height: 3.1rem;
+    width: 3.1rem;
+  }
+
+  .add_input {
+    height: 3.1rem;
+    width: 18rem;
+
+  }
+
+  .task_add {
+    height: 37px;
+
+    width: 55%;
+  }
+
+  .priority_button {
+    width: 34px !important;
+    height: 34px !important;
+
+  }
+
+  .add_button {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .cancel_button {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .done {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .add_icon,
+  .cancel_icon,
+  .priority_icon,
+  .check_icon {
+    width: 0.8em !important;
+    height: 0.8em !important;
+  }
+
+  /*-------------------Todo Form (END)--------------- */
+
+  /*-------------------Todo List (START)--------------- */
+  .todo_container {
+    width: 87% !important;
+  }
+
+  .banner_heading {
+    font-size: 1.7rem !important;
+  }
+
+  .title_box {
+    height: 43px;
+  }
+
+  .active_class {
+    height: 2.3rem;
+    width: 7.5rem;
+  }
+
+  .default {
+    height: 2.3rem;
+    width: 7.5rem;
+  }
+
+  .action_title {
+    font-size: 0.6rem !important;
+  }
+
+  .todo_card_content {
+    padding: 7px !important;
+  }
+
+  .priority_color_icon {
+    width: 0.7em !important;
+    height: 0.7em !important;
+  }
+
+  .archive_icon {
+    padding: 0 !important;
+    padding-right: 4px !important;
+  }
+
+  .task_name {
+    width: 54%;
+    font-size: 0.8em !important;
+  }
+
+  .todo_modal_content {
+    padding: 4%;
+    width: 79%;
+  }
+
+  .task_update {
+    font-size: 1em;
+  }
+
+  .update_btn {
+    width: 83px !important;
+    height: 34px !important;
+    margin-left: 9px !important;
+  }
+
+  .modal_cancel_button {
+    width: 83px !important;
+    height: 34px !important;
+  }
+
+  .completed_task_name {
+    width: 76%;
+    font-size: 0.8em !important;
+  }
+
+  .priority_box {
+    width: 54%;
+  }
+
+  .empty_todo_heading {
+    font-size: 24px !important;
   }
 }

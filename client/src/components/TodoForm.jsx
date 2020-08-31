@@ -26,7 +26,6 @@ function TodoForm({
     setPriorityModal(true);
   };
   const closePriorityModal = () => {
-    console.log(prioritySet(priority));
     setPriorityModal(false);
   };
   const prioritySet = (priority) => {
@@ -67,7 +66,7 @@ function TodoForm({
             type="submit"
             className="done"
           >
-            <Check />
+            <Check className="check_icon" />
           </Fab>
         ) : null}
         {done ? (
@@ -76,8 +75,12 @@ function TodoForm({
             component="button"
             onClick={() => openPriorityModal()}
             size="large"
+            className="priority_button"
           >
-            <RadioButtonCheckedIcon style={prioritySet(priority)} />
+            <RadioButtonCheckedIcon
+              className="priority_icon"
+              style={prioritySet(priority)}
+            />
           </Fab>
         ) : null}
         {icon ? (
@@ -87,8 +90,9 @@ function TodoForm({
             component="button"
             onClick={() => handleClick(text)}
             size="large"
+            className="add_button"
           >
-            <AddIcon />
+            <AddIcon className="add_icon" />
           </Fab>
         ) : (
           <Fab
@@ -97,8 +101,9 @@ function TodoForm({
             component="button"
             onClick={() => handleClick(text)}
             size="large"
+            className="cancel_button"
           >
-            <Cancel />
+            <Cancel className="cancel_icon" />
           </Fab>
         )}
       </div>

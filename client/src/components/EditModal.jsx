@@ -14,14 +14,10 @@ function EditModal({
   handleChangeUpdate,
   currentTodo,
 }) {
-  console.log(currentTodo.task);
-
   const [updatedTask, setupdatedTask] = useState();
   useEffect(() => {
     setupdatedTask(currentTodo.task);
   }, [currentTodo.task]);
-
-  console.log(updatedTask);
   const handleChange = ({ target: { value } }) => {
     setupdatedTask(value);
     handleChangeUpdate(value);
@@ -57,8 +53,9 @@ function EditModal({
             component="button"
             onClick={handleClose}
             size="large"
+            className="modal_cancel_button"
           >
-            <Cancel />
+            <Cancel className="cancel_icon" />
           </Fab>
 
           <Fab
@@ -68,7 +65,7 @@ function EditModal({
             className="update_btn"
             onClick={() => handleUpdate(currentTodo._id)}
           >
-            <Check />
+            <Check className="check_icon" />
           </Fab>
         </div>
       </Fade>
