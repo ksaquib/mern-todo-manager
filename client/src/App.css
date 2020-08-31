@@ -44,7 +44,6 @@
   transition: width 0.5s ease-in-out;
 }
 
-
 .task_add {
   height: 48px;
   border: none;
@@ -66,9 +65,6 @@
   animation: pop 0.8s ease 0s 1;
 }
 
-
-
-
 /*-------------------Todo Form (END)--------------- */
 
 /**----------------------------------------------------*/
@@ -85,7 +81,6 @@
   font-family: Montserrat;
   color: #4c70b1;
 }
-
 
 .export_pdf {
   margin-right: 4%;
@@ -142,7 +137,8 @@
 
 .default:hover {
   background-color: transparent !important;
-  box-shadow: 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12) !important;
 }
 
 .todo_card {
@@ -181,7 +177,6 @@
   font-family: Montserrat !important;
   color: #251e1ee6;
 }
-
 
 .todo_edit,
 .todo_delete {
@@ -228,9 +223,11 @@
 
 .complete-leave.complete-leave-active {
   opacity: 0.01;
-  background: linear-gradient(to right,
-      rgba(119, 241, 156, 0.712),
-      rgba(100, 236, 95, 0.712));
+  background: linear-gradient(
+    to right,
+    rgba(119, 241, 156, 0.712),
+    rgba(100, 236, 95, 0.712)
+  );
   /* transform: translate(900px, 0);
   transform: translate3d(900px, 0, 0); */
   transform: scaleY(0);
@@ -240,9 +237,11 @@
 
 .fade-leave.fade-leave-active {
   opacity: 0.01;
-  background: linear-gradient(to right,
-      rgba(226, 86, 86, 0.712),
-      rgba(226, 86, 86, 0.712));
+  background: linear-gradient(
+    to right,
+    rgba(226, 86, 86, 0.712),
+    rgba(226, 86, 86, 0.712)
+  );
   /* transform: translate(900px, 0);
   transform: translate3d(900px, 0, 0); */
   transform: scaleY(0);
@@ -405,15 +404,17 @@
   justify-content: center;
 }
 
-
-
 /*----------------------------------------------------------------*/
 /*---------------------Loader css---------------------------------*/
 /*----------------------------------------------------------------*/
 
 .loader {
   background: ghostwhite;
-  background: linear-gradient(to bottom right, rgb(189, 207, 245), rgb(219, 237, 241));
+  background: linear-gradient(
+    to bottom right,
+    rgb(189, 207, 245),
+    rgb(219, 237, 241)
+  );
   bottom: 0;
   left: 0;
   overflow: hidden;
@@ -515,7 +516,6 @@
 }
 
 @keyframes spin {
-
   0%,
   15% {
     transform: rotate(0);
@@ -525,7 +525,6 @@
     transform: rotate(360deg);
   }
 }
-
 
 /** All the keyframes*/
 
@@ -598,7 +597,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-
   /*-------------------Todo Form (START)--------------- */
 
   .app_body {
@@ -613,7 +611,6 @@
   .add_input {
     height: 3.1rem;
     width: 18rem;
-
   }
 
   .task_add {
@@ -625,7 +622,6 @@
   .priority_button {
     width: 34px !important;
     height: 34px !important;
-
   }
 
   .add_button {
@@ -720,7 +716,7 @@
   }
 
   .completed_task_name {
-    width: 76%;
+    width: 62%;
     font-size: 0.8em !important;
   }
 
