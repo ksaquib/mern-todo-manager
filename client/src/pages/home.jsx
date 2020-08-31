@@ -232,7 +232,7 @@ class Home extends Component {
               >
                 <span className="action_title">Archived Tasks</span>
               </Button>
-              <PDFDownload todos={todos} />
+              <PDFDownload todos={todos} currentList={currentList} />
             </div>
             <TodoList
               todos={todos}

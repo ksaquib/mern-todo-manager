@@ -6,10 +6,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import PDFComponent from "./PDFComponent";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
-function PDFDownload({ todos }) {
+function PDFDownload({ todos, currentList }) {
   return todos.length ? (
     <PDFDownloadLink
-      document={<PDFComponent todos={todos} />}
+      document={<PDFComponent todos={todos} currentList={currentList} />}
       fileName="todos.pdf"
       className="export_pdf"
     >

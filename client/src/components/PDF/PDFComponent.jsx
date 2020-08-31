@@ -40,31 +40,35 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const PDFComponent = ({ todos }) => (
+const PDFComponent = ({ todos, currentList }) => (
   <Document title="List of ToDo">
     <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
-        <Text style={styles.todo_list}>TODO LIST</Text>
-        {todos.map(
-          (todo) =>
-            !todo.completed && (
-              <Text key={todo._id} style={styles.todo}>
-                {todo.task}
-              </Text>
-            )
-        )}
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.todo_list}>ARCHIVED</Text>
-        {todos.map(
-          (todo) =>
-            todo.completed && (
-              <Text key={todo._id} style={styles.todo}>
-                {todo.task}
-              </Text>
-            )
-        )}
-      </View>
+      {currentList === "active" && (
+        <View style={styles.section}>
+          <Text style={styles.todo_list}>TODO LIST</Text>
+          {todos.map(
+            (todo) =>
+              !todo.completed && (
+                <Text key={todo._id} style={styles.todo}>
+                  {todo.task}
+                </Text>
+              )
+          )}
+        </View>
+      )}
+      {currentList === "completed" && (
+        <View style={styles.section}>
+          <Text style={styles.todo_list}>ARCHIVED</Text>
+          {todos.map(
+            (todo) =>
+              todo.completed && (
+                <Text key={todo._id} style={styles.todo}>
+                  {todo.task}
+                </Text>
+              )
+          )}
+        </View>
+      )}
     </Page>
   </Document>
 );
