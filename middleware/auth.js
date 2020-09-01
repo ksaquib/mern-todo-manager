@@ -1,4 +1,4 @@
-const config = require("config");
+const { jwtSecret } = require("../config/keys");
 const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
@@ -9,7 +9,7 @@ function auth(req, res, next) {
 
   try {
     //Verify token
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    const decoded = jwt.verify(token, jwtSecret);
     //Add user from payload
     req.user = decoded;
     next();

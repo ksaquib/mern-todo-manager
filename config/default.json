@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://ksaquib:ksaquib@cluster0-ayjcp.mongodb.net/todo?retryWrites=true&w=majority",
-  "jwtSecret": "mern_todo_saquib"
-}

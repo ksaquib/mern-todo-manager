@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
-const config = require("config");
 const jwt = require("jsonwebtoken");
+const { jwtSecret } = require("../config/keys");
 
 //User Model
 const User = require("../models/User");
@@ -31,7 +31,7 @@ const validateUserRegistration = (req, res) => {
         newUser.save().then((user) => {
           jwt.sign(
             { id: user.id },
-            config.get("jwtSecret"),
+            jwtSecret,
             { expiresIn: 3600 },
             (err, token) => {
               if (err) throw err;
